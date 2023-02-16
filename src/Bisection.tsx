@@ -19,14 +19,17 @@ const Bisection = () => {
         setXR(event.target.value)
     }
     const [html, setHtml] = useState<JSX.Element | null>(null);
-    const [valueIter, setValueIter] = useState([]);
-    const [valueXl, setValueXl] = useState([]);
+    const [valueIter, setValueIter] = useState<number[]>([]);
+    const [valueXl, setValueXl] = useState<number[]>([]);
+    const [valueXm, setValueXm] = useState<number[]>([]);
+    const [valueXr, setValueXr] = useState<number[]>([]);
+
     const calculateRoot = () => {
         const xlnum = parseFloat(XL)
         const xrnum = parseFloat(XR)
-        Calbisection(xlnum, xrnum);
+        const show = Calbisection(xlnum, xrnum);
 
-        setHtml(print());
+        setHtml(print(show));
 
         console.log(valueIter)
         console.log(valueXl)
@@ -37,15 +40,16 @@ const Bisection = () => {
         Xm: number;
         Xr: number;
     }
-    const data: Type[] = [];
+
     const error = (xold: number, xnew: number) => Math.abs((xnew - xold) / xnew) * 100;
-    const [X, setX] = useState(0)
+    const [X, setX] = useState(0);
+    var xm, fXm, fXr, ea:Number, scope;
     const Calbisection = (xl: number, xr: number) => {
-        var xm, fXm, fXr, ea, scope;
+        
         var iter = 0;
         var MAX = 50;
         const e = 0.00001;
-        var obj = {};
+        var temp:Type[]=[];
         do {
             xm = (xl + xr) / 2.0;
             scope = {
@@ -67,7 +71,7 @@ const Bisection = () => {
                     Xm: xm,
                     Xr: xr
                 }
-                data.push(obj)
+                temp.push(obj);
                 xr = xm;
             }
             else if (fXm * fXr < 0) {
@@ -78,13 +82,15 @@ const Bisection = () => {
                     Xm: xm,
                     Xr: xr
                 }
-                data.push(obj)
+                temp.push(obj);
                 xl = xm;
             }
         } while (ea > e && iter < MAX)
+        console.log("this is temp"+temp);
         setX(xm)
+        return temp 
     }
-    const print = () => {
+    const print = (data:Type[]) => {
         console.log(data)
         setValueIter(data.map((x) => x.iteration));
         setValueXl(data.map((x) => x.Xl));
@@ -95,10 +101,10 @@ const Bisection = () => {
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
-                            <th width="10%">Iteration</th>
-                            <th width="30%">XL</th>
-                            <th width="30%">XM</th>
-                            <th width="30%">XR</th>
+                            <th>Iteration</th>
+                            <th>XL</th>
+                            <th>XM</th>
+                            <th>XR</th>
                         </tr>
                     </thead>
                     <tbody>
