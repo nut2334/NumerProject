@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
+import Chart from './Chart';
 
 const Bisection = () => {
     const [Equation, setEquation] = useState("(x^4)-13")
@@ -23,6 +24,7 @@ const Bisection = () => {
     const [valueXl, setValueXl] = useState<number[]>([]);
     const [valueXm, setValueXm] = useState<number[]>([]);
     const [valueXr, setValueXr] = useState<number[]>([]);
+    const [ea, setEa] = useState<number[]>([]);
 
     const calculateRoot = () => {
         const xlnum = parseFloat(XL)
@@ -39,17 +41,19 @@ const Bisection = () => {
         Xl: number;
         Xm: number;
         Xr: number;
+        Error: number;
     }
 
     const error = (xold: number, xnew: number) => Math.abs((xnew - xold) / xnew) * 100;
     const [X, setX] = useState(0);
-    var xm, fXm, fXr, ea:Number, scope;
+    var xm, fXm, fXr, scope;
     const Calbisection = (xl: number, xr: number) => {
-        
+        var xm = (xl + xr) / 2.0;
+        var ea = error(xr, xm);
         var iter = 0;
         var MAX = 50;
         const e = 0.00001;
-        var temp:Type[]=[];
+        var temp: Type[] = [];
         do {
             xm = (xl + xr) / 2.0;
             scope = {
@@ -65,11 +69,13 @@ const Bisection = () => {
             iter++;
             if (fXm * fXr > 0) {
                 ea = error(xr, xm);
+
                 const obj: Type = {
                     iteration: iter,
                     Xl: xl,
                     Xm: xm,
-                    Xr: xr
+                    Xr: xr,
+                    Error: ea
                 }
                 temp.push(obj);
                 xr = xm;
@@ -80,22 +86,24 @@ const Bisection = () => {
                     iteration: iter,
                     Xl: xl,
                     Xm: xm,
-                    Xr: xr
+                    Xr: xr,
+                    Error: ea
                 }
                 temp.push(obj);
                 xl = xm;
             }
         } while (ea > e && iter < MAX)
-        console.log("this is temp"+temp);
+        console.log("this is temp" + temp);
         setX(xm)
-        return temp 
+        return temp
     }
-    const print = (data:Type[]) => {
+    const print = (data: Type[]) => {
         console.log(data)
         setValueIter(data.map((x) => x.iteration));
         setValueXl(data.map((x) => x.Xl));
         setValueXm(data.map((x) => x.Xm));
         setValueXr(data.map((x) => x.Xr));
+        setEa(data.map((x) => x.Error));
         return (
             <Container>
                 <Table striped bordered hover variant="dark">
@@ -105,6 +113,7 @@ const Bisection = () => {
                             <th>XL</th>
                             <th>XM</th>
                             <th>XR</th>
+                            <th>ERROR</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,6 +124,7 @@ const Bisection = () => {
                                     <td>{element.Xl}</td>
                                     <td>{element.Xm}</td>
                                     <td>{element.Xr}</td>
+                                    <td>{element.Error}</td>
                                 </tr>)
                         })}
                     </tbody>
@@ -141,6 +151,7 @@ const Bisection = () => {
             </Form>
             <br></br>
             <h5>Answer = {X.toPrecision(7)}</h5>
+            {valueIter.length > 0 && <Chart iteration={valueIter} Xl={valueXl} Xm={valueXm} Xr={valueXr} Error={ea} />}
             <Container>
                 {html}
             </Container>

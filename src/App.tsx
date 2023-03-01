@@ -3,6 +3,7 @@ import './App.css';
 import Navbar from './Navbar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Bisection from './Bisection';
+import FalsePosition from './False-Position';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/Bisection" element={<Bisection />} />
+        <Route path="/False-Position" element={<FalsePosition />} />
       </Routes>
     </BrowserRouter>
   );
