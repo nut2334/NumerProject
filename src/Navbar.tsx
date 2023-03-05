@@ -18,7 +18,7 @@ function Navbar() {
             <ul>
                 <li><A to="/Bisection">Bisection</A></li>
                 <li><A to="/False-Position">False-Position</A></li>
-                <li><a href="#contact">3</a></li>
+                <li><A to="/One-Point">One-Point</A></li>
                 <li><a href="#about">4</a></li>
             </ul>
         </div>

@@ -11,7 +11,7 @@ interface Type {
   Error: number;
 }
 
-const FalsePosition = () => {
+const OnePoint = () => {
   const [Equation, setEquation] = useState("(x^4)-13")
   const inputEquation = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value)
@@ -159,4 +159,4 @@ return (
 )
 }
 
-export default FalsePosition
+export default OnePoint
