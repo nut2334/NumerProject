@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
-import Chart from './Chart';
+import Chart2 from './Chart2';
 
 interface Type {
   iteration: number;
-  Xl: number;
-  Xm: number;
-  Xr: number;
+  X0: number;
   Error: number;
 }
 
@@ -17,146 +15,112 @@ const OnePoint = () => {
     console.log(event.target.value)
     setEquation(event.target.value)
   }
-  const [XL, setXL] = useState<string>('0')
-  const inputXL = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [X0, setX0] = useState<string>('0')
+  const inputX0 = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value)
-    setXL(event.target.value)
-  }
-  const [XR, setXR] = useState<string>('0')
-  const inputXR = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
-    setXR(event.target.value)
+    setX0(event.target.value)
   }
   const [html, setHtml] = useState<JSX.Element | null>(null);
   const [valueIter, setValueIter] = useState<number[]>([]);
-  const [valueXl, setValueXl] = useState<number[]>([]);
-  const [valueXm, setValueXm] = useState<number[]>([]);
-  const [valueXr, setValueXr] = useState<number[]>([]);
+  const [valueX0, setValueX0] = useState<number[]>([]);
   const [ea, setEa] = useState<number[]>([]);
 
   const calculateRoot = () => {
-    const xlnum = parseFloat(XL)
-    const xrnum = parseFloat(XR)
-    const show = CalFalsePosition(xlnum, xrnum);
+    const x0num = parseFloat(X0)
+    const show = CalOnePoint(x0num);
 
     setHtml(print(show));
 
     console.log(valueIter)
-    console.log(valueXl)
+    console.log(valueX0)
   }
 
-  const error = (xnew: number,xold: number) => {console.log(xold, xnew);
-    return Math.abs((xnew - xold) / xnew) * 100};
+  const error = (xnew: number, xold: number) => {
+    console.log(xold, xnew);
+    return Math.abs((xnew - xold) / xnew) * 100
+  };
   const [X, setX] = useState(0);
-  var fXl, fXr,fXm,xold=0;
-  const CalFalsePosition = (xl: number, xr: number) =>{
-    var iter = 0,ea = 100;
-    fXl = evaluate(Equation,{x:xl})
-    fXr = evaluate(Equation,{x:xr})
-    let xm = (xl*fXr-xr*fXl)/(fXr-fXl)
-    fXm = evaluate(Equation,{x:xm})
+  var fX0, xold = 0;
+  const CalOnePoint = (x0: number) => {
+    fX0 = evaluate(Equation, { x: x0 });
     var temp: Type[] = [];
-    
-    for (var i = 0; i <1000;i++) {
+    var iter = 0, ea = 100;
+    for (var i = 0; i < 1000; i++) {
       iter++;
-      xm = (xl*fXr-xr*fXl)/(fXr-fXl)
-      if(ea<0.0001){
+      x0 = evaluate(Equation, { x: x0 });
+      if (ea < 0.0001) {
         break;
       }
-      else if(fXm*fXr > 0){
-        ea = error(xm, xold);
+      else {
+        ea = error(x0, xold);
+        console.log(x0, xold);
         const obj: Type = {
           iteration: iter,
-          Xl: xl,
-          Xm: xm,
-          Xr: xr,
+          X0: x0,
           Error: ea
         }
         temp.push(obj);
-        xr=xm
+        xold = x0;
       }
-      else{
-        ea = error(xm, xold);
-        const obj: Type = {
-          iteration: iter,
-          Xl: xl,
-          Xm: xm,
-          Xr: xr,
-          Error: ea
-        }
-        temp.push(obj);
-        xl=xm
-      }
-      xold = xm;
-      fXl = evaluate(Equation,{x:xl})
-      fXr = evaluate(Equation,{x:xr})
-      fXm = evaluate(Equation,{x:xm})
-   }
-   setX(xm);
-   return temp;
+    }
+    setX(x0);
+    return temp;
   }
 
-const print = (data: Type[]) => {
-  console.log(data)
-  setValueIter(data.map((x) => x.iteration));
-  setValueXl(data.map((x) => x.Xl));
-  setValueXm(data.map((x) => x.Xm));
-  setValueXr(data.map((x) => x.Xr));
-  setEa(data.map((x) => x.Error));
+  const print = (data: Type[]) => {
+    console.log(data)
+    setValueIter(data.map((x) => x.iteration));
+    setValueX0(data.map((x) => x.X0));
+    setEa(data.map((x) => x.Error));
+    return (
+      <Container>
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th>Iteration</th>
+              <th>X0</th>
+              <th>ERROR</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((element, index) => {
+              return (
+                <tr key={index}>
+                  <td>{element.iteration}</td>
+                  <td>{element.X0}</td>
+                  <td>{element.Error}</td>
+                </tr>)
+            })}
+          </tbody>
+        </Table>
+      </Container>
+
+    );
+  }
+
   return (
     <Container>
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th>Iteration</th>
-            <th>XL</th>
-            <th>XM</th>
-            <th>XR</th>
-            <th>ERROR</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((element, index) => {
-            return (
-              <tr key={index}>
-                <td>{element.iteration}</td>
-                <td>{element.Xl}</td>
-                <td>{element.Xm}</td>
-                <td>{element.Xr}</td>
-                <td>{element.Error}</td>
-              </tr>)
-          })}
-        </tbody>
-      </Table>
+      <Form >
+        <Form.Group className="mb-3">
+          <Form.Label>Input G(x) =</Form.Label>
+          <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+          = x <br></br>
+          <Form.Label>Input x0 =</Form.Label>
+          <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+        </Form.Group>
+        <Button variant="dark" onClick={calculateRoot}>
+          Calculate
+        </Button>
+      </Form>
+      <br></br>
+      <h5>Answer = {X.toPrecision(7)}</h5>
+      {valueIter.length > 0 && <Chart2 iteration={valueIter} X0={valueX0} Error={ea} />}
+      <Container>
+        {html}
+      </Container>
+
     </Container>
-
-  );
-}
-
-return (
-  <Container>
-    <Form >
-      <Form.Group className="mb-3">
-        <Form.Label>Input f(x)</Form.Label>
-        <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-        <Form.Label>Input XL</Form.Label>
-        <input type="number" id="XL" onChange={inputXL} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-        <Form.Label>Input XR</Form.Label>
-        <input type="number" id="XR" onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-      </Form.Group>
-      <Button variant="dark" onClick={calculateRoot}>
-        Calculate
-      </Button>
-    </Form>
-    <br></br>
-    <h5>Answer = {X.toPrecision(7)}</h5>
-    {valueIter.length > 0 && <Chart iteration={valueIter} Xl={valueXl} Xm={valueXm} Xr={valueXr} Error={ea} />}
-    <Container>
-      {html}
-    </Container>
-
-  </Container>
-)
+  )
 }
 
 export default OnePoint
