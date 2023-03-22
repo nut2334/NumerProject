@@ -33,8 +33,8 @@ const Chart2 = (prop:itemProp) => {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="x0" stroke="#F38181" activeDot={{ r: 8 }}/>
-      <Line type="monotone" dataKey="error" stroke="#95E1D3" />
+      <Line type="monotone" dataKey="x0" stroke="#F38181" activeDot={{ r: 8 }} strokeWidth={4}/>
+      <Line type="monotone" dataKey="error" stroke="#95E1D3" strokeWidth={4}/>
     </LineChart>
   )
 }

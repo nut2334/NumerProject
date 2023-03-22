@@ -120,10 +120,10 @@ const print = (data: Type[]) => {
             return (
               <tr key={index}>
                 <td>{element.iteration}</td>
-                <td>{element.Xl}</td>
-                <td>{element.Xm}</td>
-                <td>{element.Xr}</td>
-                <td>{element.Error}</td>
+                <td>{element.Xl.toFixed(2)}</td>
+                <td>{element.Xm.toFixed(2)}</td>
+                <td>{element.Xr.toFixed(2)}</td>
+                <td>{element.Error.toFixed(2)}</td>
               </tr>)
           })}
         </tbody>

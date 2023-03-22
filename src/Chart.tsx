@@ -37,10 +37,10 @@ const Chart = (prop:itemProp) => {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="xl" stroke="#F38181" activeDot={{ r: 8 }}/>
-      <Line type="monotone" dataKey="xm" stroke="#FCE38A" />
-      <Line type="monotone" dataKey="xr" stroke="#EAFFD0" />
-      <Line type="monotone" dataKey="error" stroke="#95E1D3" />
+      <Line type="monotone" dataKey="xl" stroke="#F9ED69" activeDot={{ r: 8 }} strokeWidth={4}/>
+      <Line type="monotone" dataKey="xm" stroke="#F08A5D" strokeWidth={4}/>
+      <Line type="monotone" dataKey="xr" stroke="#B83B5E" strokeWidth={4}/>
+      <Line type="monotone" dataKey="error" stroke="#6A2C70" strokeWidth={4}/>
     </LineChart>
   )
 }

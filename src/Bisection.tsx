@@ -60,7 +60,6 @@ const Bisection = () => {
                 x: xr,
             }
             fXr = evaluate(Equation, scope)
-
             scope = {
                 x: xm,
             }
@@ -69,7 +68,6 @@ const Bisection = () => {
             iter++;
             if (fXm * fXr > 0) {
                 ea = error(xr, xm);
-
                 const obj: Type = {
                     iteration: iter,
                     Xl: xl,
@@ -90,6 +88,7 @@ const Bisection = () => {
                     Error: ea
                 }
                 temp.push(obj);
+                console.log("this is obj" + obj);
                 xl = xm;
             }
         } while (ea > e && iter < MAX)
@@ -98,12 +97,19 @@ const Bisection = () => {
         return temp
     }
     const print = (data: Type[]) => {
-        console.log(data)
+        // for(let i = 0; i < data.length; i++){
+        //     data[i].Xl = Number(data[i].Xl.toFixed(2));
+        //     data[i].Xm = Number(data[i].Xm.toFixed(2));
+        //     data[i].Xr = Number(data[i].Xr.toFixed(2));
+        //     data[i].Error = Number(data[i].Error.toFixed(2));
+        // }
+        
         setValueIter(data.map((x) => x.iteration));
         setValueXl(data.map((x) => x.Xl));
         setValueXm(data.map((x) => x.Xm));
         setValueXr(data.map((x) => x.Xr));
         setEa(data.map((x) => x.Error));
+        
         return (
             <Container>
                 <Table striped bordered hover variant="dark">
@@ -121,10 +127,10 @@ const Bisection = () => {
                             return (
                                 <tr key={index}>
                                     <td>{element.iteration}</td>
-                                    <td>{element.Xl}</td>
-                                    <td>{element.Xm}</td>
-                                    <td>{element.Xr}</td>
-                                    <td>{element.Error}</td>
+                                    <td>{element.Xl.toFixed(2)}</td>
+                                    <td>{element.Xm.toFixed(2)}</td>
+                                    <td>{element.Xr.toFixed(2)}</td>
+                                    <td>{element.Error.toFixed(2)}</td>
                                 </tr>)
                         })}
                     </tbody>

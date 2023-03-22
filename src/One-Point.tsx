@@ -10,7 +10,7 @@ interface Type {
 }
 
 const OnePoint = () => {
-  const [Equation, setEquation] = useState("(x^4)-13")
+  const [Equation, setEquation] = useState("1/4 + x/2")
   const inputEquation = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value)
     setEquation(event.target.value)
@@ -45,10 +45,24 @@ const OnePoint = () => {
     fX0 = evaluate(Equation, { x: x0 });
     var temp: Type[] = [];
     var iter = 0, ea = 100;
-    for (var i = 0; i < 1000; i++) {
+
+    x0 = evaluate(Equation, { x: x0 });
+    ea = error(x0, xold);
+        console.log(x0, xold);
+        const obj: Type = {
+          iteration: iter,
+          X0: x0,
+          Error: ea
+        }
+        temp.push(obj);
+        xold = x0;
+        if(x0 == evaluate(Equation+"-x", { x: x0 })){
+          return temp;
+        }
+    for (var i = 1; i < 1000; i++) {
       iter++;
       x0 = evaluate(Equation, { x: x0 });
-      if (ea < 0.0001) {
+      if (ea < 0.0001 || x0 == evaluate(Equation+"-x", { x: x0 })) {
         break;
       }
       else {
@@ -87,8 +101,8 @@ const OnePoint = () => {
               return (
                 <tr key={index}>
                   <td>{element.iteration}</td>
-                  <td>{element.X0}</td>
-                  <td>{element.Error}</td>
+                  <td>{element.X0.toFixed(2)}</td>
+                  <td>{element.Error.toFixed(2)}</td>
                 </tr>)
             })}
           </tbody>
