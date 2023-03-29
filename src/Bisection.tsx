@@ -97,13 +97,6 @@ const Bisection = () => {
         return temp
     }
     const print = (data: Type[]) => {
-        // for(let i = 0; i < data.length; i++){
-        //     data[i].Xl = Number(data[i].Xl.toFixed(2));
-        //     data[i].Xm = Number(data[i].Xm.toFixed(2));
-        //     data[i].Xr = Number(data[i].Xr.toFixed(2));
-        //     data[i].Error = Number(data[i].Error.toFixed(2));
-        // }
-        
         setValueIter(data.map((x) => x.iteration));
         setValueXl(data.map((x) => x.Xl));
         setValueXm(data.map((x) => x.Xm));
