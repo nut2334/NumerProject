@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
 import Chart2 from './Chart2';
+import { Container, Form, Table } from "react-bootstrap";
+import Button from '@mui/material/Button';
 
 interface Type {
   iteration: number;
@@ -95,27 +96,29 @@ const OnePoint = () => {
   }
 
   return (
-    <Container>
-      <Form >
-        <Form.Group className="mb-3">
-          <Form.Label>Input G(x) =</Form.Label>
-          <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-          = x <br></br>
-          <Form.Label>Input x0 =</Form.Label>
-          <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-        </Form.Group>
-        <Button variant="dark" onClick={calculateRoot}>
-          Calculate
-        </Button>
-      </Form>
-      <br></br>
-      <h5>Answer = {X.toPrecision(7)}</h5>
-      {valueIter.length > 0 && <Chart2 iteration={valueIter} X0={valueX0} Error={ea} />}
+    <div>
       <Container>
-        {html}
+        <h1>Newton-Raphson</h1>
+        <Form >
+          <Form.Group className="mb-3">
+            <Form.Label>Input G(x) =</Form.Label>
+            <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+            = x <br></br>
+            <Form.Label>Input x0 =</Form.Label>
+            <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+          </Form.Group>
+          <Button onClick={calculateRoot} variant="contained" >
+                    Calculate
+                </Button>
+        </Form>
+        <br></br>
+        <h5>Answer = {X.toPrecision(7)}</h5>
+        {valueIter.length > 0 && <Chart2 iteration={valueIter} X0={valueX0} Error={ea} />}
+        <Container>
+          {html}
+        </Container>
       </Container>
-
-    </Container>
+    </div>
   )
 }
 

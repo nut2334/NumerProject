@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Container, Form, Table } from "react-bootstrap";
+import { Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
 import Chart2 from './Chart2';
+import Button from '@mui/material/Button';
 
 interface Type {
   iteration: number;
@@ -114,6 +115,7 @@ const OnePoint = () => {
 
   return (
     <Container>
+      <h1>One-Point</h1>
       <Form >
         <Form.Group className="mb-3">
           <Form.Label>Input G(x) =</Form.Label>
@@ -122,9 +124,9 @@ const OnePoint = () => {
           <Form.Label>Input x0 =</Form.Label>
           <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
         </Form.Group>
-        <Button variant="dark" onClick={calculateRoot}>
-          Calculate
-        </Button>
+        <Button onClick={calculateRoot} variant="contained" >
+                    Calculate
+                </Button>
       </Form>
       <br></br>
       <h5>Answer = {X.toPrecision(7)}</h5>

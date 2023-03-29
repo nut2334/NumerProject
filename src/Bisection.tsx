@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Container, Form, Table } from "react-bootstrap";
+import { Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
 import Chart from './Chart';
+import Button from '@mui/material/Button';
 
 const Bisection = () => {
     const [Equation, setEquation] = useState("(x^4)-13")
@@ -135,6 +136,7 @@ const Bisection = () => {
 
     return (
         <Container>
+            <h1>Bisection</h1>
             <Form >
                 <Form.Group className="mb-3">
                     <Form.Label>Input f(x)</Form.Label>
@@ -144,7 +146,7 @@ const Bisection = () => {
                     <Form.Label>Input XR</Form.Label>
                     <input type="number" id="XR" onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
                 </Form.Group>
-                <Button variant="dark" onClick={calculateRoot}>
+                <Button onClick={calculateRoot} variant="contained" >
                     Calculate
                 </Button>
             </Form>
@@ -154,7 +156,6 @@ const Bisection = () => {
             <Container>
                 {html}
             </Container>
-
         </Container>
     )
 }
