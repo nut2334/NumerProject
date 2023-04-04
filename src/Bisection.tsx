@@ -103,7 +103,7 @@ const Bisection = () => {
         setValueXm(data.map((x) => x.Xm));
         setValueXr(data.map((x) => x.Xr));
         setEa(data.map((x) => x.Error));
-        
+
         return (
             <Container>
                 <Table striped bordered hover variant="dark">
@@ -135,7 +135,7 @@ const Bisection = () => {
     }
 
     return (
-        <Container>
+        <div style={{ textAlign: "center" }}>
             <h1>Bisection</h1>
             <Form >
                 <Form.Group className="mb-3">
@@ -156,7 +156,7 @@ const Bisection = () => {
             <Container>
                 {html}
             </Container>
-        </Container>
+        </div>
     )
 }
 

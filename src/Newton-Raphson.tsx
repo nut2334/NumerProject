@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { evaluate,derivative} from 'mathjs'
+import { evaluate, derivative } from 'mathjs'
 import Chart2 from './Chart2';
 import { Container, Form, Table } from "react-bootstrap";
 import Button from '@mui/material/Button';
+import { text } from 'stream/consumers';
 
 interface Type {
   iteration: number;
@@ -42,36 +43,52 @@ const NewtonRaphson = () => {
   };
   const [X, setX] = useState(0);
   const maxIters = 1000;
-  const df = derivative(Equation, 'x');
+  let df: math.MathNode;
+  try {
+    df = derivative(Equation, 'x');
+  }
+  catch (e) {
+    console.log(e);
+  }
 
   const CalNewtonRaphson = (x0: number) => {
-      let xn = x0;
-      let i = 0;
-      let iter =0;
-      let temp=[];
-      let xold = 0;
-      let ea = 100;
 
-      while (i < maxIters) { 
-        iter++;
-        if (ea < 0.0001) {
-          break;
-        }
-        xn = xn - evaluate(Equation,{x: xn}) / df.evaluate({x: xn});
-        x0 = evaluate(Equation, { x: xn });
-        ea = error(xn, xold);
-        const obj: Type = {
-          iteration: iter,
-          X0: xn,
-          Error: ea
-        }
-        temp.push(obj);
-        xold = xn;
-       
-        i++;
+    let xn = x0;
+    let i = 0;
+    let iter = 0;
+    let temp = [];
+    let xold = 0;
+    let ea = 100;
+
+    while (i < maxIters) {
+      iter++;
+      if (ea < 0.0001) {
+        break;
       }
-      setX(xn);
-      return temp;
+      try {
+        xn = xn - evaluate(Equation, { x: xn }) / df.evaluate({ x: xn });
+        if (xn == Infinity) {
+          throw new Error("Infinity");
+        }
+      } catch (error) {
+        alert("Infinity")
+        break;
+      }
+      x0 = evaluate(Equation, { x: xn });
+      ea = error(xn, xold);
+
+      const obj: Type = {
+        iteration: iter,
+        X0: xn,
+        Error: ea
+      }
+      temp.push(obj);
+      xold = xn;
+
+      i++;
+    }
+    setX(xn);
+    return temp;
   }
 
   const print = (data: Type[]) => {
@@ -81,7 +98,7 @@ const NewtonRaphson = () => {
     setEa(data.map((x) => x.Error));
     return (
       <Container>
-        <Table striped bordered hover variant="dark">
+        {X != Infinity && <Table striped bordered hover variant="dark">
           <thead>
             <tr>
               <th>Iteration</th>
@@ -99,34 +116,32 @@ const NewtonRaphson = () => {
                 </tr>)
             })}
           </tbody>
-        </Table>
+        </Table>}
       </Container>
 
     );
   }
 
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
+      <h1>Newton-Raphson</h1>
+      <Form >
+        <Form.Group className="mb-3">
+          <Form.Label>Input f(x) =</Form.Label>
+          <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+          = 0 <br></br>
+          <Form.Label>Input x0 =</Form.Label>
+          <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+        </Form.Group>
+        <Button onClick={calculateRoot} variant="contained" >
+          Calculate
+        </Button>
+      </Form>
+      <br></br>
+      <h5>Answer = {X.toPrecision(7)}</h5>
+      {valueIter.length > 0 && <Chart2 iteration={valueIter} X0={valueX0} Error={ea} />}
       <Container>
-        <h1>Newton-Raphson</h1>
-        <Form >
-          <Form.Group className="mb-3">
-            <Form.Label>Input f(x) =</Form.Label>
-            <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-            = 0 <br></br>
-            <Form.Label>Input x0 =</Form.Label>
-            <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-          </Form.Group>
-          <Button onClick={calculateRoot} variant="contained" >
-                    Calculate
-                </Button>
-        </Form>
-        <br></br>
-        <h5>Answer = {X.toPrecision(7)}</h5>
-        {valueIter.length > 0 && <Chart2 iteration={valueIter} X0={valueX0} Error={ea} />}
-        <Container>
-          {html}
-        </Container>
+        {html}
       </Container>
     </div>
   )
