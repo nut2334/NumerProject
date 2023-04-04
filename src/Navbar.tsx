@@ -72,10 +72,10 @@ function Navbar() {
         <Dropdown>
             <Dropbtn>ROOTS OF EQUATIONS</Dropbtn>
             <HoverDropdownContent>
-            <A to="/Bisection">Bisection</A>
-            <A to="/False-Position">False-Position</A>
-            <A to="/One-Point">One-Point</A>
-            <A to="/Newton-Raphson">Newton-Raphson</A>
+              <A to="/Bisection">Bisection</A>
+              <A to="/False-Position">False-Position</A>
+              <A to="/One-Point">One-Point</A>
+              <A to="/Newton-Raphson">Newton-Raphson</A>
             </HoverDropdownContent>
         </Dropdown>
     </Navbarr>

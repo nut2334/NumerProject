@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { evaluate } from 'mathjs'
+import { evaluate,derivative} from 'mathjs'
 import Chart2 from './Chart2';
 import { Container, Form, Table } from "react-bootstrap";
 import Button from '@mui/material/Button';
@@ -10,16 +10,16 @@ interface Type {
   Error: number;
 }
 
-const OnePoint = () => {
-  const [Equation, setEquation] = useState("1/4 + x/2")
-  const inputEquation = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value)
-    setEquation(event.target.value)
-  }
+const NewtonRaphson = () => {
+  const [Equation, setEquation] = useState("x^2-7");
   const [X0, setX0] = useState<string>('0')
   const inputX0 = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value)
     setX0(event.target.value)
+  }
+  const inputEquation = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value)
+    setEquation(event.target.value)
   }
   const [html, setHtml] = useState<JSX.Element | null>(null);
   const [valueIter, setValueIter] = useState<number[]>([]);
@@ -41,27 +41,37 @@ const OnePoint = () => {
     return Math.abs((xnew - xold) / xnew) * 100
   };
   const [X, setX] = useState(0);
-  var fX0, xold = 0;
-  const CalNewtonRaphson = (x0: number) => {
-    fX0 = evaluate(Equation, { x: x0 });
-    var temp: Type[] = [];
-    var iter = 0, ea = 100;
+  const maxIters = 1000;
+  const df = derivative(Equation, 'x');
 
-    x0 = evaluate(Equation, { x: x0 });
-    ea = error(x0, xold);
-        console.log(x0, xold);
+  const CalNewtonRaphson = (x0: number) => {
+      let xn = x0;
+      let i = 0;
+      let iter =0;
+      let temp=[];
+      let xold = 0;
+      let ea = 100;
+
+      while (i < maxIters) { 
+        iter++;
+        if (ea < 0.0001) {
+          break;
+        }
+        xn = xn - evaluate(Equation,{x: xn}) / df.evaluate({x: xn});
+        x0 = evaluate(Equation, { x: xn });
+        ea = error(xn, xold);
         const obj: Type = {
           iteration: iter,
-          X0: x0,
+          X0: xn,
           Error: ea
         }
         temp.push(obj);
-        xold = x0;
-        if(x0 == evaluate(Equation+"-x", { x: x0 })){
-          return temp;
-        }
-        iter++;
-        return temp;
+        xold = xn;
+       
+        i++;
+      }
+      setX(xn);
+      return temp;
   }
 
   const print = (data: Type[]) => {
@@ -101,9 +111,9 @@ const OnePoint = () => {
         <h1>Newton-Raphson</h1>
         <Form >
           <Form.Group className="mb-3">
-            <Form.Label>Input G(x) =</Form.Label>
+            <Form.Label>Input f(x) =</Form.Label>
             <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-            = x <br></br>
+            = 0 <br></br>
             <Form.Label>Input x0 =</Form.Label>
             <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
           </Form.Group>
@@ -122,4 +132,4 @@ const OnePoint = () => {
   )
 }
 
-export default OnePoint
+export default NewtonRaphson
