@@ -49,21 +49,21 @@ const OnePoint = () => {
 
     x0 = evaluate(Equation, { x: x0 });
     ea = error(x0, xold);
-        console.log(x0, xold);
-        const obj: Type = {
-          iteration: iter,
-          X0: x0,
-          Error: ea
-        }
-        temp.push(obj);
-        xold = x0;
-        if(x0 == evaluate(Equation+"-x", { x: x0 })){
-          return temp;
-        }
+    console.log(x0, xold);
+    const obj: Type = {
+      iteration: iter,
+      X0: x0,
+      Error: ea
+    }
+    temp.push(obj);
+    xold = x0;
+    if (x0 == evaluate(Equation + "-x", { x: x0 })) {
+      return temp;
+    }
     for (var i = 1; i < 1000; i++) {
       iter++;
       x0 = evaluate(Equation, { x: x0 });
-      if (ea < 0.0001 || x0 == evaluate(Equation+"-x", { x: x0 })) {
+      if (ea < 0.0001 || x0 == evaluate(Equation + "-x", { x: x0 })) {
         break;
       }
       else {
@@ -88,8 +88,8 @@ const OnePoint = () => {
     setValueX0(data.map((x) => x.X0));
     setEa(data.map((x) => x.Error));
     return (
-      <Container>
-        <Table striped bordered hover variant="dark">
+      <div style={{ textAlign: "center", justifyContent: "center", display: 'flex', width: '100vw' }}>
+        <table>
           <thead>
             <tr>
               <th>Iteration</th>
@@ -107,14 +107,14 @@ const OnePoint = () => {
                 </tr>)
             })}
           </tbody>
-        </Table>
-      </Container>
+        </table>
+      </div>
 
     );
   }
 
   return (
-    <Container>
+    <div style={{ textAlign: "center" }}>
       <h1>One-Point</h1>
       <Form >
         <Form.Group className="mb-3">
@@ -125,8 +125,8 @@ const OnePoint = () => {
           <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
         </Form.Group>
         <Button onClick={calculateRoot} variant="contained" >
-                    Calculate
-                </Button>
+          Calculate
+        </Button>
       </Form>
       <br></br>
       <h5>Answer = {X.toPrecision(7)}</h5>
@@ -135,7 +135,7 @@ const OnePoint = () => {
         {html}
       </Container>
 
-    </Container>
+    </div>
   )
 }
 
