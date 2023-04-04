@@ -59,16 +59,7 @@ const HoverDropdownContent = styled(DropdownContent)`
 
 function Navbar() {
     return (
-        // <div>
-        //     <style dangerouslySetInnerHTML={{ __html: "\nul {\n  list-style-type: none;\n  margin: 0;\n  padding: 0;\n  overflow: hidden;\n  background-color: #333;\n}\n\nli {\n  float: left;\n}\n\nli a {\n  display: block;\n  color: white;\n  text-align: center;\n  padding: 14px 16px;\n  text-decoration: none;\n}\n\nli a:hover {\n  background-color: #111;\n}\n" }} />
-        //     <ul>
-        //         <li><A to="/Bisection">Bisection</A></li>
-        //         <li><A to="/False-Position">False-Position</A></li>
-        //         <li><A to="/One-Point">One-Point</A></li>
-        //         <li><A to="/Newton-Raphson">Newton-Raphson</A></li>
-        //     </ul>
-        // </div>
-        <Navbarr>
+      <Navbarr>
         <Dropdown>
             <Dropbtn>ROOTS OF EQUATIONS</Dropbtn>
             <HoverDropdownContent>
@@ -76,6 +67,7 @@ function Navbar() {
               <A to="/False-Position">False-Position</A>
               <A to="/One-Point">One-Point</A>
               <A to="/Newton-Raphson">Newton-Raphson</A>
+              <A to="/Secant">Secant</A>
             </HoverDropdownContent>
         </Dropdown>
     </Navbarr>

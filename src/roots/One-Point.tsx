@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
-import Chart2 from './Chart2';
+import Chart2 from '../Chart2';
 import Button from '@mui/material/Button';
 
 interface Type {

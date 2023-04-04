@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { evaluate, derivative } from 'mathjs'
-import Chart2 from './Chart2';
+import Chart2 from '../Chart2';
 import { Container, Form, Table } from "react-bootstrap";
 import Button from '@mui/material/Button';
 import { text } from 'stream/consumers';
