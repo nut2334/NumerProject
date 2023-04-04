@@ -29,9 +29,7 @@ const OnePoint = () => {
   const calculateRoot = () => {
     const x0num = parseFloat(X0)
     const show = CalOnePoint(x0num);
-
     setHtml(print(show));
-
     console.log(valueIter)
     console.log(valueX0)
   }
@@ -118,13 +116,13 @@ const OnePoint = () => {
       <h1>One-Point</h1>
       <Form >
         <Form.Group className="mb-3">
-          <Form.Label>Input G(x) =</Form.Label>
+          <Form.Label>Input G(x) = </Form.Label>
           <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
           = x <br></br>
-          <Form.Label>Input x0 =</Form.Label>
+          <Form.Label> Input x0 = </Form.Label>
           <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
         </Form.Group>
-        <Button onClick={calculateRoot} variant="contained" >
+        <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }}>
           Calculate
         </Button>
       </Form>

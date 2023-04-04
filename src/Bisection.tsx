@@ -105,7 +105,7 @@ const Bisection = () => {
         setEa(data.map((x) => x.Error));
 
         return (
-            <Container>
+            <div style={{ textAlign: "center", justifyContent: "center", display: 'flex', width: '100vw' }}>
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
@@ -129,7 +129,7 @@ const Bisection = () => {
                         })}
                     </tbody>
                 </Table>
-            </Container>
+            </div>
 
         );
     }
@@ -139,14 +139,14 @@ const Bisection = () => {
             <h1>Bisection</h1>
             <Form >
                 <Form.Group className="mb-3">
-                    <Form.Label>Input f(x)</Form.Label>
+                    <Form.Label>Input f(x) </Form.Label>
                     <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-                    <Form.Label>Input XL</Form.Label>
+                    <Form.Label> Input XL </Form.Label>
                     <input type="number" id="XL" onChange={inputXL} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-                    <Form.Label>Input XR</Form.Label>
+                    <Form.Label> Input XR </Form.Label>
                     <input type="number" id="XR" onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
                 </Form.Group>
-                <Button onClick={calculateRoot} variant="contained" >
+                <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }}>
                     Calculate
                 </Button>
             </Form>

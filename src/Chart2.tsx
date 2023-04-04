@@ -17,6 +17,7 @@ const Chart2 = (prop:itemProp) => {
   });
 }
   return (
+    <div style={{ textAlign: "center", justifyContent: "center", display: 'flex', width: '100vw' }}>
     <LineChart
       width={1000}
       height={300}
@@ -36,6 +37,7 @@ const Chart2 = (prop:itemProp) => {
       <Line type="monotone" dataKey="x0" stroke="#F38181" activeDot={{ r: 8 }} strokeWidth={4}/>
       <Line type="monotone" dataKey="error" stroke="#95E1D3" strokeWidth={4}/>
     </LineChart>
+    </div>
   )
 }
 

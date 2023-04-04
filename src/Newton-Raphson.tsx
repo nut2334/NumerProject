@@ -52,7 +52,6 @@ const NewtonRaphson = () => {
   }
 
   const CalNewtonRaphson = (x0: number) => {
-
     let xn = x0;
     let i = 0;
     let iter = 0;
@@ -97,8 +96,8 @@ const NewtonRaphson = () => {
     setValueX0(data.map((x) => x.X0));
     setEa(data.map((x) => x.Error));
     return (
-      <Container>
-        {X != Infinity && <Table striped bordered hover variant="dark">
+      <div style={{ textAlign: "center", justifyContent: "center", display: 'flex', width: '100vw' }}>
+        {data.length > 0 && <Table striped bordered hover variant="dark">
           <thead>
             <tr>
               <th>Iteration</th>
@@ -117,7 +116,7 @@ const NewtonRaphson = () => {
             })}
           </tbody>
         </Table>}
-      </Container>
+      </div>
 
     );
   }
@@ -127,13 +126,13 @@ const NewtonRaphson = () => {
       <h1>Newton-Raphson</h1>
       <Form >
         <Form.Group className="mb-3">
-          <Form.Label>Input f(x) =</Form.Label>
+          <Form.Label>Input f(x) = </Form.Label>
           <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
           = 0 <br></br>
-          <Form.Label>Input x0 =</Form.Label>
+          <Form.Label> Input x0 = </Form.Label>
           <input type="number" id="X0" onChange={inputX0} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
         </Form.Group>
-        <Button onClick={calculateRoot} variant="contained" >
+        <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }}>
           Calculate
         </Button>
       </Form>
