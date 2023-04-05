@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
 import Chart from '../Chart';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 const Bisection = () => {
-    const [Equation, setEquation] = useState("(x^4)-13")
+    const [Equation, setEquation] = useState("x^2")
+    const isDisabled = !Equation;
     const inputEquation = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
         setEquation(event.target.value)
     }
+    
     const [XL, setXL] = useState<string>('0')
     const inputXL = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
@@ -44,10 +47,22 @@ const Bisection = () => {
         Xr: number;
         Error: number;
     }
+    interface Item {
+        id: number;
+        math: string;
+    }
 
     const error = (xold: number, xnew: number) => Math.abs((xnew - xold) / xnew) * 100;
     const [X, setX] = useState(0);
     var xm, fXm, fXr, scope;
+
+    const [data, setData] = useState<Item[]>([]);
+    useEffect(() => {
+        axios.get<Item[]>('http://localhost:4000/bisection')
+            .then(response => setData(response.data))
+            .catch(error => console.log(error));
+    }, []);
+
     const Calbisection = (xl: number, xr: number) => {
         var xm = (xl + xr) / 2.0;
         var ea = error(xr, xm);
@@ -143,12 +158,20 @@ const Bisection = () => {
                 <Form.Group className="mb-3">
                     <Form.Label>Input f(x) </Form.Label>
                     <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+                    <select onChange={(e)=>{
+                        setEquation(e.target.value)
+                    }}>
+                        <option>Example</option>
+                        {data.map(item => (
+                            <option key={item.math} value={item.math} >{item.math}</option>
+                        ))}
+                    </select>
                     <Form.Label> Input XL </Form.Label>
                     <input type="number" id="XL" onChange={inputXL} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
                     <Form.Label> Input XR </Form.Label>
                     <input type="number" id="XR" onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
                 </Form.Group>
-                <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }}>
+                <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }} disabled={isDisabled}>
                     Calculate
                 </Button>
             </Form>

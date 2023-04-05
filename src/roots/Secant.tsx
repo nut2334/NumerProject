@@ -119,7 +119,7 @@ const Secant = () => {
 
     return (
         <div style={{ textAlign: "center" }}>
-            <h1>Newton-Raphson</h1>
+            <h1>Secant</h1>
             <Form >
                 <Form.Group className="mb-3">
                     <Form.Label>Input f(x) = </Form.Label>
