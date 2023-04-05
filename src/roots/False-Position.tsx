@@ -61,7 +61,6 @@ const FalsePosition = () => {
     var temp: Type[] = [];
 
     for (var i = 0; i < 1000; i++) {
-      iter++;
       xm = (xl * fXr - xr * fXl) / (fXr - fXl)
       if (ea < 0.0001) {
         break;
@@ -76,6 +75,7 @@ const FalsePosition = () => {
           Error: ea
         }
         temp.push(obj);
+        iter++;
         xr = xm
       }
       else {
@@ -88,6 +88,7 @@ const FalsePosition = () => {
           Error: ea
         }
         temp.push(obj);
+        iter++;
         xl = xm
       }
       xold = xm;

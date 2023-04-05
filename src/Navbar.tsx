@@ -22,7 +22,7 @@ const Navbarr = styled.div`
 const Dropdown = styled.div`
   float: right;
   overflow: hidden;
-  margin-right: 3%;
+  margin-right: 0%;
 `;
 
 const Dropbtn = styled.div`
@@ -58,20 +58,29 @@ const HoverDropdownContent = styled(DropdownContent)`
 `;
 
 function Navbar() {
-    return (
-      <Navbarr>
-        <Dropdown>
-            <Dropbtn>ROOTS OF EQUATIONS</Dropbtn>
-            <HoverDropdownContent>
-              <A to="/Bisection">Bisection</A>
-              <A to="/False-Position">False-Position</A>
-              <A to="/One-Point">One-Point</A>
-              <A to="/Newton-Raphson">Newton-Raphson</A>
-              <A to="/Secant">Secant</A>
-            </HoverDropdownContent>
-        </Dropdown>
+  return (
+    <Navbarr>
+      <Dropdown>
+        <Dropbtn>LINEAR ALGEBRAIC EQUATIONS</Dropbtn>
+        <HoverDropdownContent>
+          <A to="/Cramer-Rule">Cramer</A>
+        </HoverDropdownContent>
+      </Dropdown>
+      <Dropdown>
+        <Dropbtn>ROOTS OF EQUATIONS</Dropbtn>
+        <HoverDropdownContent>
+          <A to="/Bisection">Bisection</A>
+          <A to="/False-Position">False-Position</A>
+          <A to="/One-Point">One-Point</A>
+          <A to="/Newton-Raphson">Newton-Raphson</A>
+          <A to="/Secant">Secant</A>
+        </HoverDropdownContent>
+
+      </Dropdown>
+
+
     </Navbarr>
-    );
+  );
 }
 
 export default Navbar;

@@ -66,7 +66,7 @@ const Bisection = () => {
             }
             fXm = evaluate(Equation, scope)
 
-            iter++;
+
             if (fXm * fXr > 0) {
                 ea = error(xr, xm);
                 const obj: Type = {
@@ -77,6 +77,7 @@ const Bisection = () => {
                     Error: ea
                 }
                 temp.push(obj);
+                iter++;
                 xr = xm;
             }
             else if (fXm * fXr < 0) {
@@ -89,6 +90,7 @@ const Bisection = () => {
                     Error: ea
                 }
                 temp.push(obj);
+                iter++;
                 console.log("this is obj" + obj);
                 xl = xm;
             }

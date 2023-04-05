@@ -8,6 +8,7 @@ import OnePoint from './roots/One-Point';
 import NewtonRaphson from './roots/Newton-Raphson';
 import Home from './Home';
 import Secant from './roots/Secant';
+import CramerRule from './Cramer-Rule';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/One-Point" element={<OnePoint />} />
         <Route path="/Newton-Raphson" element={<NewtonRaphson />} />
         <Route path="/Secant" element={<Secant />} />
+        <Route path="/Cramer-Rule" element={<CramerRule />} />
       </Routes>
     </BrowserRouter>
   );

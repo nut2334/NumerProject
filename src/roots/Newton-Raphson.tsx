@@ -60,7 +60,6 @@ const NewtonRaphson = () => {
     let ea = 100;
 
     while (i < maxIters) {
-      iter++;
       if (ea < 0.0001) {
         break;
       }
@@ -82,6 +81,7 @@ const NewtonRaphson = () => {
         Error: ea
       }
       temp.push(obj);
+      iter++;
       xold = xn;
 
       i++;
