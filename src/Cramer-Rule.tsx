@@ -9,6 +9,7 @@ const CramerRule = () => {
     const inputElements2: JSX.Element[] = [];
     const A: number[][] = [];
     const B: number[] = [];
+    const C: number[] = [];
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputCount = parseInt(event.target.value);
@@ -41,6 +42,9 @@ const CramerRule = () => {
     const Calculate = () => {
         const determinant = det(A);
         console.log('Determinant:', determinant);
+        // for(let i=0;i< numInputs;i++){
+        
+        // }
     }
     
 

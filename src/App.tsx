@@ -9,13 +9,14 @@ import NewtonRaphson from './roots/Newton-Raphson';
 import Home from './Home';
 import Secant from './roots/Secant';
 import CramerRule from './Cramer-Rule';
+import Box from './today';
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Box />} />
         <Route path="/Bisection" element={<Bisection />} />
         <Route path="/False-Position" element={<FalsePosition />} />
         <Route path="/One-Point" element={<OnePoint />} />
