@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 
 const Bisection = () => {
-    const [Equation, setEquation] = useState("x^2")
+    const [Equation, setEquation] = useState("x^4-13")
     const isDisabled = !Equation;
     const inputEquation = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
@@ -18,12 +18,11 @@ const Bisection = () => {
         console.log(event.target.value)
         setXL(event.target.value)
     }
-    const [XR, setXR] = useState<string>('0')
+    const [XR, setXR] = useState<string>('10')
     const inputXR = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value)
         setXR(event.target.value)
     }
-    const [html, setHtml] = useState<JSX.Element | null>(null);
     const [valueIter, setValueIter] = useState<number[]>([]);
     const [valueXl, setValueXl] = useState<number[]>([]);
     const [valueXm, setValueXm] = useState<number[]>([]);
@@ -35,12 +34,18 @@ const Bisection = () => {
         const xrnum = parseFloat(XR)
         const show = Calbisection(xlnum, xrnum);
 
-        setHtml(print(show));
+        setData2(show);
 
+        setValueIter(show.map((x) => x.iteration));
+        setValueXl(show.map((x) => x.Xl));
+        setValueXm(show.map((x) => x.Xm));
+        setValueXr(show.map((x) => x.Xr));
+        setEa(show.map((x) => x.Error));
+        
         console.log(valueIter)
         console.log(valueXl)
     }
-    interface Type {
+    interface Math {
         iteration: number;
         Xl: number;
         Xm: number;
@@ -54,14 +59,18 @@ const Bisection = () => {
 
     const error = (xold: number, xnew: number) => Math.abs((xnew - xold) / xnew) * 100;
     const [X, setX] = useState(0);
-    var xm, fXm, fXr, scope;
+    var fXm, fXr, scope;
 
     const [data, setData] = useState<Item[]>([]);
+    const [data2, setData2] = useState<Math[]>([]);
+    
     useEffect(() => {
         axios.get<Item[]>('http://localhost:4000/bisection')
             .then(response => setData(response.data))
             .catch(error => console.log(error));
     }, []);
+
+    
 
     const Calbisection = (xl: number, xr: number) => {
         var xm = (xl + xr) / 2.0;
@@ -69,7 +78,7 @@ const Bisection = () => {
         var iter = 0;
         var MAX = 50;
         const e = 0.00001;
-        var temp: Type[] = [];
+        var temp:Math[] = [];
         do {
             xm = (xl + xr) / 2.0;
             scope = {
@@ -84,7 +93,7 @@ const Bisection = () => {
 
             if (fXm * fXr > 0) {
                 ea = error(xr, xm);
-                const obj: Type = {
+                const obj: Math = {
                     iteration: iter,
                     Xl: xl,
                     Xm: xm,
@@ -97,7 +106,7 @@ const Bisection = () => {
             }
             else if (fXm * fXr < 0) {
                 ea = error(xl, xm);
-                const obj: Type = {
+                const obj: Math = {
                     iteration: iter,
                     Xl: xl,
                     Xm: xm,
@@ -111,19 +120,42 @@ const Bisection = () => {
             }
         } while (ea > e && iter < MAX)
         console.log("this is temp" + temp);
+        
         setX(xm)
         return temp
     }
-    const print = (data: Type[]) => {
-        setValueIter(data.map((x) => x.iteration));
-        setValueXl(data.map((x) => x.Xl));
-        setValueXm(data.map((x) => x.Xm));
-        setValueXr(data.map((x) => x.Xr));
-        setEa(data.map((x) => x.Error));
+    
 
-        return (
+    return (
+        <div style={{ textAlign: "center" }}>
+            <h1>Bisection</h1>
+            <Form >
+                <Form.Group className="mb-3">
+                    <Form.Label>Input f(x) </Form.Label>
+                    <input type="text" id="equation" placeholder={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+                    <select onChange={(e)=>{
+                        setEquation(e.target.value)
+                    }}>
+                        <option>Example</option>
+                        {data.map(item => (
+                            <option key={item.math} value={item.math} >{item.math}</option>
+                        ))}
+                    </select>
+                    <Form.Label> Input XL </Form.Label>
+                    <input type="number" id="XL" placeholder={XL} onChange={inputXL} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+                    <Form.Label> Input XR </Form.Label>
+                    <input type="number" id="XR" placeholder={XR} onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+                </Form.Group>
+                <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }} disabled={isDisabled}>
+                    Calculate
+                </Button>
+            </Form>
+            <br></br>
+            <h5>Answer = {X.toPrecision(7)}</h5>
+            {valueIter.length > 0 && <Chart iteration={valueIter} Xl={valueXl} Xm={valueXm} Xr={valueXr} Error={ea} />}
+            <Container>
             <div style={{ textAlign: "center", justifyContent: "center", display: 'flex', width: '100vw' }}>
-                <Table striped bordered hover variant="dark">
+                {data2.length > 0 && <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
                             <th>Iteration</th>
@@ -134,7 +166,7 @@ const Bisection = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((element, index) => {
+                        {data2.map((element, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{element.iteration}</td>
@@ -145,41 +177,8 @@ const Bisection = () => {
                                 </tr>)
                         })}
                     </tbody>
-                </Table>
+                </Table>}
             </div>
-
-        );
-    }
-
-    return (
-        <div style={{ textAlign: "center" }}>
-            <h1>Bisection</h1>
-            <Form >
-                <Form.Group className="mb-3">
-                    <Form.Label>Input f(x) </Form.Label>
-                    <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-                    <select onChange={(e)=>{
-                        setEquation(e.target.value)
-                    }}>
-                        <option>Example</option>
-                        {data.map(item => (
-                            <option key={item.math} value={item.math} >{item.math}</option>
-                        ))}
-                    </select>
-                    <Form.Label> Input XL </Form.Label>
-                    <input type="number" id="XL" onChange={inputXL} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-                    <Form.Label> Input XR </Form.Label>
-                    <input type="number" id="XR" onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
-                </Form.Group>
-                <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }} disabled={isDisabled}>
-                    Calculate
-                </Button>
-            </Form>
-            <br></br>
-            <h5>Answer = {X.toPrecision(7)}</h5>
-            {valueIter.length > 0 && <Chart iteration={valueIter} Xl={valueXl} Xm={valueXm} Xr={valueXr} Error={ea} />}
-            <Container>
-                {html}
             </Container>
         </div>
     )
