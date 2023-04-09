@@ -10,6 +10,7 @@ import Home from './Home';
 import Secant from './roots/Secant';
 import CramerRule from './Cramer-Rule';
 import ProductList from './HomeworkByHeart';
+import Box from './today';
 
 function App() {
   return (
