@@ -30,31 +30,32 @@ const Box =()=>{
     }
 
 
-    const calculateRoot=(event:React.ChangeEvent<HTMLInputElement>,i:number)=>{
-        console.log(i);
-        var value = Number(event.target.value);
-        var ans=evaluate(Equation,{x:value});
-        let temp = final
-        temp[i] = ans
-        setFinal(temp);
+    // const calculateRoot=(event:React.ChangeEvent<HTMLInputElement>,i:number)=>{
+    //     console.log(i);
+    //     var value = Number(event.target.value);
+    //     var ans=evaluate(Equation,{x:value});
+    //     let temp = final
+    //     temp[i] = ans
+    //     setFinal(temp);
         
-    }
+    // }
 
 
     const Gentable = ()=> {
         return sai.map((item, index) => {
             
-            return <input onChange={(e) => {
+            return (<div><input onChange={(e) => {
                 let value = evaluate(Equation, {x:e.target.value})
                 let temp = JSON.parse(JSON.stringify(final))
                 temp[index] = value
                 setFinal(temp)
             }}/>
+            <br/></div>)
         })
     }
     const GentableY = ()=> {
         return final.map((item, index) => {
-            return <input placeholder={`${final[index]}`}/>
+            return (<div><input placeholder={`${final[index]}`}/></div>)
         })
     }
     

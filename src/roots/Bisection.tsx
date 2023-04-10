@@ -68,6 +68,7 @@ const Bisection = () => {
         axios.get<Item[]>('http://localhost:4000/bisection')
             .then(response => setData(response.data))
             .catch(error => console.log(error));
+            console.log("data: ",data);
     }, []);
 
     
