@@ -20,11 +20,11 @@
         },
         {
             "id": 1,
-            "math": ""
+            "math": "(x^4)-14"
         },
         {
             "id": 2,
-            "math": ""
+            "math": "(x^4)-15"
         }
     ],
     "newtonRaphson": [
