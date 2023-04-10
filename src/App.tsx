@@ -17,7 +17,7 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<ProductList />} />
+        <Route path="/" element={<Box />} />
         <Route path="/Bisection" element={<Bisection />} />
         <Route path="/False-Position" element={<FalsePosition />} />
         <Route path="/One-Point" element={<OnePoint />} />

@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from "react"
 import { count, evaluate } from 'mathjs'
+import { Button } from '@mui/material';
 
 const Box =()=>{
     const [input,setInput]=useState(0);
@@ -30,31 +31,31 @@ const Box =()=>{
     }
 
 
-    const calculateRoot=(event:React.ChangeEvent<HTMLInputElement>,i:number)=>{
-        console.log(i);
-        var value = Number(event.target.value);
-        var ans=evaluate(Equation,{x:value});
-        let temp = final
-        temp[i] = ans
+    const calculateRoot=()=>
+    {   
+        let temp = sai.map((item, index) => {
+            var value = item;
+            var ans=evaluate(Equation,{x:value});
+            return ans;
+        }) 
+        console.log(temp);
         setFinal(temp);
-        
     }
-
+    const inputValue=(event:React.ChangeEvent<HTMLInputElement>,index:number)=>{
+        let value = Number(event.target.value);
+        let temp = JSON.parse(JSON.stringify(sai));
+        temp[index] = value;
+        setSai(temp);
+    }
 
     const Gentable = ()=> {
         return sai.map((item, index) => {
-            
-            return <input onChange={(e) => {
-                let value = evaluate(Equation, {x:e.target.value})
-                let temp = JSON.parse(JSON.stringify(final))
-                temp[index] = value
-                setFinal(temp)
-            }}/>
+            return <div><input key={index} onChange={(e)=>inputValue(e,index)}/></div>
         })
     }
     const GentableY = ()=> {
         return final.map((item, index) => {
-            return <input placeholder={`${final[index]}`}/>
+            return <div><input placeholder={`${final[index]}`}/></div>
         })
     }
     
@@ -66,9 +67,7 @@ const Box =()=>{
             <br></br>
             <div style={{display:"inline-block"}}>{Gentable()}</div>
             <div style={{display:"inline-block"}}>{GentableY()}</div>
-
-            {/* <div style={{display:"inline-block"}}>{element}</div>
-            <div style={{display:"inline-block"}}>{element2}</div> */}
+            <Button onClick={calculateRoot} >Calculate</Button>
         </div>
     )
 }
