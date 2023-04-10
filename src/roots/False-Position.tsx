@@ -23,7 +23,7 @@ const FalsePosition = () => {
     console.log(event.target.value)
     setXL(event.target.value)
   }
-  const [XR, setXR] = useState<string>('0')
+  const [XR, setXR] = useState<string>('2')
   const inputXR = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value)
     setXR(event.target.value)
@@ -143,11 +143,11 @@ const FalsePosition = () => {
       <Form >
         <Form.Group className="mb-3">
           <Form.Label>Input f(x)</Form.Label>
-          <input type="text" id="equation" value={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+          <input type="text" id="equation" placeholder={Equation} onChange={inputEquation} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
           <Form.Label> Input XL </Form.Label>
-          <input type="number" id="XL" onChange={inputXL} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+          <input type="number" id="XL" placeholder={XL} onChange={inputXL} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
           <Form.Label> Input XR </Form.Label>
-          <input type="number" id="XR" onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
+          <input type="number" id="XR" placeholder={XR} onChange={inputXR} style={{ width: "20%", margin: "0 auto" }} className="form-control"></input>
         </Form.Group>
         <Button onClick={calculateRoot} variant="contained" sx={{ m: 2 }}>
           Calculate
