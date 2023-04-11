@@ -42,9 +42,6 @@ const CramerRule = () => {
     const Calculate = () => {
         const determinant = det(A);
         console.log('Determinant:', determinant);
-        // for(let i=0;i< numInputs;i++){
-        
-        // }
     }
     
 
