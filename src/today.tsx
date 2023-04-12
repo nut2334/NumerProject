@@ -4,21 +4,27 @@ import { Button } from '@mui/material';
 import Chart from "./chartToday";
 import sum from 'ml-array-sum';
 import axios from 'axios';
+import { set } from "mongoose";
 
 
 const Box = () => {
     const [input, setInput] = useState(0);
     const [sai, setSai] = useState<number[]>([])
-
-
     //const [Equation, setEquation] = useState("");
     const [state, setState] = useState(0);
-
     const [final, setFinal] = useState<number[]>([])
     const [ansJing1, setAns1] = useState(0);
     const [ansJing2, setAns2] = useState(0);
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<nata>();
 
+    const [exampleN, setExampleN] = useState<number>(0);
+    const [fx, setFx] = useState<number[]>([]);
+
+    interface nata {
+        N: number;
+        X: [];
+        Y: [];
+    }
     interface Math {
         x: number;
         y: number;
@@ -40,11 +46,10 @@ const Box = () => {
     useEffect(() => {
         axios.get('http://localhost:1150/linear')
             .then((response: any) => {
-                console.log(response.data.result);
-                setData(response.data)
+
+                setData(response.data.result as nata)
             })
             .catch((error: any) => console.log(error));
-        console.log("dataHI: ", data);
 
     }, []);
     const countBox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,9 +81,10 @@ const Box = () => {
         let ansBon = det(bon);
         let ansLank = det(lank);
 
-
         let Jing1 = ansBon / det(a);
         let Jing2 = ansLank / det(a);
+
+
 
         setAns1(Jing1);
         setAns2(Jing2);
@@ -100,28 +106,47 @@ const Box = () => {
 
     const Gentable = () => {
         return sai.map((item, index) => {
-            return <div><input key={index} onChange={(e) => inputValue(e, index)} /></div>
+            return <div><input key={index} onChange={(e) => inputValue(e, index)} placeholder={`${sai[index]}`} /></div>
         })
     }
     const GentableY = () => {
         return final.map((item, index) => {
-            return <div><input onChange={(e) => inputFx(e, index)} /></div>
+            return <div><input onChange={(e) => inputFx(e, index)} placeholder={`${final[index]}`} /></div>
         })
     }
     const api = () => {
+        console.log(data?.N)
+        if (data) {
+
+            let temp: number[] = []
+            let temp2: number[] = []
+            console.log(data.X);
+
+            for (let i = 0; i < data.N; i++) {
+                temp.push(data.X[i])
+                temp2.push(data.Y[i])
+            }
+            console.log(temp, temp2);
+
+            setSai(temp)
+            setFinal(temp2)
+            setExampleN(data.N);
+            setInput(data.N)
+
+        }
 
     }
     return (
         <div>
-            <input onChange={countBox}></input>
+            <input onChange={countBox} placeholder={`${exampleN}`}></input>
             <br></br>
-            <input value="X" style={{ textAlign: "center" }}></input><input value="f(x)" style={{ textAlign: "center" }}></input>
+            <input value="X" style={{ textAlign: "center" }}></input><input value="f(x)" style={{ textAlign: "center" }} placeholder={`${exampleN}`}></input>
             <br />
             <div style={{ display: "inline-block" }}>{Gentable()}</div>
             <div style={{ display: "inline-block" }}>{GentableY()}</div><br></br>
 
-            <Button onClick={calLinear} >Calculate</Button><br></br>
-            <Button onClick={api}>Api</Button>
+            <Button onClick={calLinear} >Calculate</Button>
+            <Button onClick={api}>Api</Button><br></br>
             a0={ansJing1} <br></br>
             a1={ansJing2}
             {state == 1 && <Chart x={sai} y={final} />}
